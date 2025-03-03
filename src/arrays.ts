@@ -5,7 +5,17 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    let returnArray = numbers;
+    if(numbers.length <= 0){
+        return returnArray;
+    }
+    else if(numbers.length == 1){
+        returnArray = [numbers[0], numbers[0]];
+    }
+    else{
+        returnArray = [numbers[0], numbers[numbers.length-1]];
+    }
+    return returnArray;
 }
 
 /**
@@ -13,7 +23,11 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    const tripledLowPrices = numbers.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (numbers: number): number => (numbers < 0) ? (3 * numbers) : numbers * 3
+      );
+    return tripledLowPrices;
 }
 
 /**
@@ -21,7 +35,11 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    const tripledLowPrices = numbers.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (numbers: string): number => (!Number.isNaN(Number(numbers))) ? (Number(numbers)) : 0
+      );
+    return tripledLowPrices;
 }
 
 /**
@@ -32,7 +50,11 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    const tripledLowPrices = amounts.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (amounts: string): number => (!Number.isNaN(Number(amounts.replace('$', '')))) ? Number(amounts.replace('$', '')) : 0
+      );
+    return tripledLowPrices;
 };
 
 /**
@@ -41,7 +63,15 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const tripledLowPrices = messages.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (messages: string): string => (messages.includes('!')) ? messages.toUpperCase() : messages
+      );
+
+      const filtered = tripledLowPrices.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (sentence: string): boolean => !sentence.includes("?"));
+    return filtered;
 };
 
 /**
@@ -49,7 +79,10 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const filtered = words.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (sentence: string): boolean => sentence.length<4);
+    return filtered.length;
 }
 
 /**
@@ -58,7 +91,16 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    const filtered = colors.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (colors: string): boolean => colors == 'red' || colors == 'blue' || colors == 'green');
+    if(filtered.length == colors.length){
+        return true;
+    }
+    else{
+        return false;
+    }
+    
 }
 
 /**
@@ -69,7 +111,16 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    const filtered = addends.join('+');
+    filtered.indexOf("+");
+    const number = addends.reduce((accumulator, currentValue) => accumulator + currentValue, 0).toString();
+    if(number != '0'){
+        var newfiltered = number + '=' + filtered;
+    }
+    else{
+        var newfiltered = number + '=0';
+    }
+    return newfiltered;
 }
 
 /**
@@ -82,5 +133,22 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+
+    const firstLowPriceIndex = values.findIndex((values: number): boolean => values < 0);
+    let sum = 0;
+    if (firstLowPriceIndex == -1){
+        sum = values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        const pricesAtEnd = [...values, sum];
+        return pricesAtEnd;
+    }
+    else{
+        const newarray = values.slice(0, firstLowPriceIndex);
+        const newarray3 = values.slice(0, firstLowPriceIndex+1);
+        const pricesAtEnd = [...values];
+        sum = newarray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        newarray3.push(sum);
+        const newarray2 = newarray3.concat(values.slice(firstLowPriceIndex+1, values.length));
+        
+        return newarray2
+    }
 }
