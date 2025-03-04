@@ -148,7 +148,6 @@ export function injectPositive(values: number[]): number[] {
         sum = newarray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
         newarray3.push(sum);
         const newarray2 = newarray3.concat(values.slice(firstLowPriceIndex+1, values.length));
-        
         return newarray2
     }
 }
