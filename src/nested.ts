@@ -1,12 +1,26 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-
+import {
+    makeBlankQuestion,
+    isCorrect,
+    isValid,
+    toShortForm,
+    toMarkdown,
+    duplicateQuestion,
+    renameQuestion,
+    publishQuestion,
+    addOption,
+    mergeQuestion,
+} from "./objects";
 /**
  * Consumes an array of questions and returns a new array with only the questions
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    const publishedQs = questions.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (question: Question): boolean => question.published);
+    return publishedQs;
 }
 
 /**
@@ -15,7 +29,10 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    const nonEmptyQs = questions.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (question: Question): boolean => !((question.body == null || question.body == "") && (question.expected == null || question.expected == "") && (question.options.length == 0)));
+    return nonEmptyQs;
 }
 
 /***
@@ -26,7 +43,11 @@ export function findQuestion(
     questions: Question[],
     id: number
 ): Question | null {
-    return null;
+    const nonEmptyQs = questions.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (question: Question): boolean => question.id == id);
+    if(nonEmptyQs.length <=0) return null;
+    else return nonEmptyQs[0];
 }
 
 /**
@@ -35,7 +56,10 @@ export function findQuestion(
  * Hint: use filter
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+        const nonEmptyQs = questions.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (question: Question): boolean => question.id != id);
+    return nonEmptyQs;
 }
 
 /***
@@ -44,7 +68,11 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * Do not modify the input array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    const tripledLowPrices = questions.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (questions: Question): string => true ? questions.name : questions.name
+      );
+      return tripledLowPrices;
 }
 
 /**
@@ -53,7 +81,29 @@ export function getNames(questions: Question[]): string[] {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    const tripledLowPrices = questions.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (questions: Question): Answer => true ? {
+            /** The ID of the question being answered. */
+            questionId: questions.id,
+            /** The text that the student entered for their answer. */
+            text: "",
+            /** Whether or not the student has submitted this answer. */
+            submitted: false,
+            /** Whether or not the students' answer matched the expected. */
+            correct: false
+        } : {
+            /** The ID of the question being answered. */
+            questionId: questions.id,
+            /** The text that the student entered for their answer. */
+            text: "",
+            /** Whether or not the student has submitted this answer. */
+            submitted: false,
+            /** Whether or not the students' answer matched the expected. */
+            correct: false
+        }
+      );
+      return tripledLowPrices;
 }
 
 /***
@@ -62,7 +112,11 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * Hint: as usual, do not modify the input questions array
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    const tripledLowPrices = questions.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (questions: Question): Question => true ? {id: questions.id, name: questions.name, body : questions.body, type : questions.type, options : questions.options, expected : questions.expected, points : questions.points, published: true} : {id: questions.id, name: questions.name, body : questions.body, type : questions.type, options : questions.options, expected : questions.expected, points : questions.points, published: true}
+      );
+      return tripledLowPrices;
 }
 
 /***
@@ -77,7 +131,10 @@ export function addNewQuestion(
     name: string,
     type: QuestionType
 ): Question[] {
-    return [];
+    const newQuestion = makeBlankQuestion(id,name,type);
+    const finalquestions = [...questions];
+    finalquestions.push(newQuestion);
+    return finalquestions;
 }
 
 /***
@@ -92,7 +149,11 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    const tripledLowPrices = questions.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (questions: Question): Question => questions.id == targetId ? {id: questions.id, name: newName, body : questions.body, type : questions.type, options : questions.options, expected : questions.expected, points : questions.points, published: questions.published} : {id: questions.id, name: questions.name, body : questions.body, type : questions.type, options : questions.options, expected : questions.expected, points : questions.points, published: questions.published}
+      );
+      return tripledLowPrices;
 }
 
 /**
@@ -113,5 +174,19 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    const question = questions.filter(
+        // Check if the string in `sentence` includes the substring "?"
+        (question: Question): boolean => question.id == targetId);
+    const newoptions = [...question[0].options];
+    if(targetOptionIndex == -1){
+        newoptions.push(newOption);
+    }   
+    else{
+        newoptions[targetOptionIndex] = newOption;
+    }
+    const tripledLowPrices = questions.map(
+        // If the price is less than 10, double the price, otherwise use the price unchanged
+        (questions: Question): Question => questions.id == targetId ? {id: questions.id, name: questions.name, body : questions.body, type : questions.type, options : newoptions, expected : questions.expected, points : questions.points, published: questions.published} : {id: questions.id, name: questions.name, body : questions.body, type : questions.type, options : questions.options, expected : questions.expected, points : questions.points, published: questions.published}
+      );
+      return tripledLowPrices;
 }
