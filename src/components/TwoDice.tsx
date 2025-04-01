@@ -2,33 +2,14 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import {act} from "react";
 
+export function d6() {
+    return Math.floor(Math.random() * 6) + 1;
+}
+
 export function TwoDice() {
     // Initialize dice with two different values
-    const [leftDie, setLeftDie] = useState(() => Math.floor(Math.random() * 6) + 1);
-    const [rightDie, setRightDie] = useState(() => {
-        let value;
-        do {
-            value = Math.floor(Math.random() * 6) + 1;
-        } while (value === leftDie);
-        return value;
-    });
-
-    // Function to roll the left die
-    const rollLeft = () => {
-        act(() => {
-            const newLeftDie = Math.floor(Math.random() * 6) + 1;
-            setLeftDie(newLeftDie);
-                });
-        
-    };
-
-    // Function to roll the right die
-    const rollRight = () => {
-        act(() => {
-            const newRightDie = Math.floor(Math.random() * 6) + 1;
-        setRightDie(newRightDie);
-                });
-    };
+    const [leftDie, setLeftDie] = useState(0);
+    const [rightDie, setRightDie] = useState(1);
 
     // Determine game state
     let gameStatus = null;
@@ -40,8 +21,8 @@ export function TwoDice() {
         <div>
             <div data-testid="left-die">Left Die: {leftDie}</div>
             <div data-testid="right-die">Right Die: {rightDie}</div>
-            <Button onClick={rollLeft}>Roll Left</Button>
-            <Button onClick={rollRight}>Roll Right</Button>
+            <Button onClick={() => {setLeftDie(d6())}}>Roll Left</Button>
+            <Button onClick={()=>{setRightDie(d6())}}>Roll Right</Button>
             {gameStatus && <div>{gameStatus}</div>}
         </div>
     );

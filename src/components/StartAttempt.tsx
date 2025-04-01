@@ -9,12 +9,10 @@ export function StartAttempt(): React.JSX.Element {
 
     // Function to start the quiz
     const startQuiz = () => {
-        if (attempts > 0) {
-            act(() => {
+        act(() => {
                 setInProgress(true);
                 setAttempts((prev) => prev - 1); // Decrease attempts by 1 when starting the quiz
             });
-        }
     };
 
     // Function to stop the quiz
@@ -28,13 +26,6 @@ export function StartAttempt(): React.JSX.Element {
     const mulligan = () => {
         act(() => {
             setAttempts((prev) => prev + 1); // Increase attempts by 1
-        });
-    };
-
-    // Function to reset the attempts to the original value
-    const resetAttempts = () => {
-        act(() => {
-            setAttempts(4);
         });
     };
 
@@ -61,8 +52,6 @@ export function StartAttempt(): React.JSX.Element {
                 >
                     Mulligan
                 </Button>
-                {/* Reset attempts button for testing */}
-                <Button onClick={resetAttempts}>Reset Attempts</Button>
             </div>
         </div>
     );
