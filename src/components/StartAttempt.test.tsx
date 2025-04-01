@@ -62,8 +62,11 @@ describe("StartAttempt Component tests", () => {
         const mulliganButton = screen.getByRole("button", {
             name: /Mulligan/i
         });
+        //expect(attemptNumber).toEqual("This should equal 4");
         mulliganButton.click();
         const attemptNumberLater = extractDigits(screen.getByText(/(\d+)/));
+        //This should now equal 5
+        expect("This should equal 5").toEqual("This should equal 5");
         expect(attemptNumber + 1).toEqual(attemptNumberLater);
     });
     test("Clicking Mulligan twice increases attempts by two", () => {
