@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import {act} from "react";
 
 export function d6() {
     return Math.floor(Math.random() * 6) + 1;

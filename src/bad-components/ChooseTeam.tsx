@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
+import {act} from "react";
 
 const PEOPLE = [
     "Alan Turing",
@@ -9,24 +10,39 @@ const PEOPLE = [
     "Barbara Liskov",
     "Margaret Hamilton",
 ];
-
 export function ChooseTeam(): React.JSX.Element {
     const [allOptions, setAllOptions] = useState<string[]>(PEOPLE);
     const [team, setTeam] = useState<string[]>([]);
 
-    function chooseMember() {
-        /*
-        if (!team.includes(newMember)) {
-            team.push(newMember);
-        }
-        */
+
+    function ShowTeam(): React.JSX.Element {
+        return (
+            <div>
+            <strong>Team:</strong>
+                                {team.map((member: string) => (
+                                    <li key={member}>{member}</li>
+                                ))}
+    
+        </div>
+        );
+    }
+    function chooseMember(newMember: string) {
+        act(() => {              
+            if (!team.includes(newMember)) {
+                setTeam([...team, newMember]);
+                setAllOptions(PEOPLE);      
+            }
+        });
+        
     }
 
     function clearTeam() {
-        /*
-        team = [];
-        */
+        act(() => {              
+            setTeam([]);
+        });
+        
     }
+
 
     return (
         <div>
@@ -36,17 +52,14 @@ export function ChooseTeam(): React.JSX.Element {
                     {allOptions.map((option: string) => (
                         <div key={option} style={{ marginBottom: "4px" }}>
                             Add{" "}
-                            <Button onClick={chooseMember} size="sm">
+                            <Button onClick={() => {chooseMember(option)}} size="sm">
                                 {option}
                             </Button>
                         </div>
                     ))}
                 </Col>
                 <Col>
-                    <strong>Team:</strong>
-                    {team.map((member: string) => (
-                        <li key={member}>{member}</li>
-                    ))}
+                    <ShowTeam></ShowTeam>
                     <Button onClick={clearTeam}>Clear Team</Button>
                 </Col>
             </Row>
